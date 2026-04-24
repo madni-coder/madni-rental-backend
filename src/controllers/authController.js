@@ -39,6 +39,7 @@ async function login(req, res) {
     res.cookie(cookieName, token, buildCookieOptions());
 
     return res.json({
+        token,
         user: adminUser,
     });
 }

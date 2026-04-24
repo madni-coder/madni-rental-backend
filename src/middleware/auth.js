@@ -2,7 +2,11 @@ const jwt = require("jsonwebtoken");
 const { adminUser, cookieName } = require("../lib/admin");
 
 function auth(req, res, next) {
-    const token = req.cookies[cookieName];
+    let token = req.cookies[cookieName];
+
+    if (!token && req.headers.authorization?.startsWith("Bearer ")) {
+        token = req.headers.authorization.slice(7);
+    }
 
     if (!token) {
         return res.status(401).json({ message: "Authentication required." });
