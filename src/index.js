@@ -16,6 +16,8 @@ const allowedOrigins = [
     "http://localhost:3000",
     "https://madni-rental.vercel.app",
     ...(process.env.CLIENT_URL ? [process.env.CLIENT_URL] : []),
+    // Railway deployment domain (allow internal probes and any requests from the deployed host)
+    "https://madni-rental-backend-production.up.railway.app",
 ];
 
 app.use(
@@ -39,6 +41,11 @@ app.use(express.json());
 
 app.get("/api/health", (req, res) => {
     res.json({ status: "ok" });
+});
+
+// Root route for platform health checks (some hosts probe "/")
+app.get("/", (req, res) => {
+    res.json({ status: "ok", service: "Razvi Rental API" });
 });
 
 app.use("/api/auth", authRoutes);

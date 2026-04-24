@@ -2,11 +2,12 @@ const jwt = require("jsonwebtoken");
 const { adminPassword, adminUser, cookieName } = require("../lib/admin");
 
 function buildCookieOptions() {
+    const isProd = process.env.NODE_ENV === "production";
     return {
         httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
+        sameSite: isProd ? "none" : "lax",
+        secure: isProd,
     };
 }
 
