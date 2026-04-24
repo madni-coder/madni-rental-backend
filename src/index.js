@@ -71,12 +71,7 @@ async function start() {
         console.warn("Warning: JWT_SECRET is not set. Auth functionality may be degraded.");
     }
 
-    try {
-        await connectToDatabase();
-    } catch (err) {
-        console.error("Warning: could not connect to database:", err && err.message ? err.message : err);
-        console.error("Continuing to start server so health checks pass. Configure MONGODB_URI in production.");
-    }
+    await connectToDatabase();
 
     app.listen(port, () => {
         console.log(`Razvi Rental API listening on port ${port}`);
